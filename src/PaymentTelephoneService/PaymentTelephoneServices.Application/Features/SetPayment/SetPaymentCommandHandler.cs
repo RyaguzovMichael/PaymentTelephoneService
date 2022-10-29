@@ -23,7 +23,7 @@ internal class SetPaymentCommandHandler : IRequestHandler<SetPaymentCommand, boo
     {
         if(await _mobileOperatorServicesAggregator.SendPaymentAsync(request.Payment, cancellationToken))
         {
-            _paymentTransactionsDbService.SavePaymentTransactionAsync(request.Payment, cancellationToken);
+            await _paymentTransactionsDbService.SavePaymentTransactionAsync(request.Payment, cancellationToken);
             _logger.LogInformation($"Payment to number: {request.Payment.PhoneNumber} is sucsessfuly complete.");
             return true;
         }

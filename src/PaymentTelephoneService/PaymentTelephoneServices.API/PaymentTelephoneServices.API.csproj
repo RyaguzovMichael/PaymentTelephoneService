@@ -4,10 +4,15 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>170e1795-971f-4633-bc9a-ae234cb069e3</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="MediatR" Version="11.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.10">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Serilog" Version="2.12.0" />
     <PackageReference Include="Serilog.Extensions.Autofac.DependencyInjection" Version="5.0.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />

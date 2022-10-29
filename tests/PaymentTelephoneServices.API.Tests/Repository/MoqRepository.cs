@@ -9,4 +9,9 @@ internal class MoqRepository : IPaymentTransactionsDbService
     {
         return Task.CompletedTask;
     }
+
+    public Task SetMobileOperatorsData(CancellationToken cancellationToken)
+    {
+        return Task.CompletedTask;
+    }
 }

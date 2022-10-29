@@ -1,8 +1,10 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using PaymentTelephoneServices.Application.Contracts;
 using PaymentTelephoneServices.Infrastructure.DependencyInjection.Options;
+using PaymentTelephoneServices.Infrastructure.Persistanse;
 using PaymentTelephoneServices.Infrastructure.Services;
 using PaymentTelephoneServices.Infrastructure.Services.MobileOperatorServices;
 
@@ -25,6 +27,9 @@ internal static class DependencyInjection
         }, logger));
 
         services.AddTransient<IMobileOperatorServicesAggregator, MobileOperatorServicesAggregator>();
+        services.AddDbContext<TransactionsContext>(options =>
+            options.UseNpgsql(configuration.GetConnectionString("DbConnectionString")));
+
         services.AddTransient<IPaymentTransactionsDbService, PaymentTransactionsDbService>();
 
         return services;
