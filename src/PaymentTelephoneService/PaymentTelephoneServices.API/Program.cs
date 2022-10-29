@@ -5,15 +5,15 @@ using PaymentTelephoneServices.Infrastructure.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
-var configuration = builder.Configuration;
 
 // Add services to the container.
 services.AddControllers();
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
-services.AddApiOptions(configuration);
-services.AddApplicationServices(configuration);
-services.AddInfrastructureServices(configuration);
+services.AddApiOptions(builder.Configuration);
+services.AddSerilogLogging(builder.Logging);
+services.AddApplicationServices(builder.Configuration);
+services.AddInfrastructureServices(builder.Configuration);
 
 var app = builder.Build();
 
