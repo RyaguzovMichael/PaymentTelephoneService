@@ -1,3 +1,5 @@
+using PaymentTelephoneServices.API.Middlewares;
+
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 
@@ -15,6 +17,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<GlobalExceptionHandler>();
 app.UseHttpsRedirection();
 app.MapControllers();
 
