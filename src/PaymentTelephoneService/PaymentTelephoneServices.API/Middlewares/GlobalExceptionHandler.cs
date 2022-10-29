@@ -1,4 +1,5 @@
-﻿using PaymentTelephoneServices.Domain.Exceptions;
+﻿using PaymentTelephoneServices.API.Models;
+using PaymentTelephoneServices.Domain.Exceptions;
 using System.Net;
 
 namespace PaymentTelephoneServices.API.Middlewares;
@@ -16,33 +17,62 @@ internal class GlobalExceptionHandler
 
     public async Task InvokeAsync(HttpContext context)
     {
+        ResponseVm response;
         try
         {
             await _next.Invoke(context);
         }
         catch (PhoneValidationException ex)
         {
-            _logger.LogError(ex.Message);
-            context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-            await context.Response.WriteAsJsonAsync("Введённый телефонный номер имеет неверный формат. Верный формат: +# (###) ### ## ##");
+            _logger.LogError(ex.Message); 
+            response = new ResponseVm()
+            {
+                IsSucsess = false,
+                Error = "Введённый телефонный номер имеет неверный формат. Верный формат: +# (###) ### ## ##",
+                ErrorCode = ErrorCodes.InvalidPhoneNumberInput,
+                Message = null
+            };
+            context.Response.StatusCode = (int)HttpStatusCode.OK;
+            await context.Response.WriteAsJsonAsync(response);
         }
         catch (PaymentAmountValidationException ex)
         {
             _logger.LogError(ex.Message);
-            context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-            await context.Response.WriteAsJsonAsync("Минимальная сумма пополнения равна 1 тенге");
+            response = new ResponseVm()
+            {
+                IsSucsess = false,
+                Error = "Минимальная сумма пополнения равна 1 тенге",
+                ErrorCode = ErrorCodes.InvalidPaymentAmountInput,
+                Message = null
+            };
+            context.Response.StatusCode = (int)HttpStatusCode.OK;
+            await context.Response.WriteAsJsonAsync(response);
         }
-        catch (ArgumentNullException ex)
+        catch (NullReferenceException ex)
         {
             _logger.LogError("The argument is null or empty: " + ex.Message);
-            context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-            await context.Response.WriteAsJsonAsync("Входящие данные оказались пусты");
+            response = new ResponseVm()
+            {
+                IsSucsess = false,
+                Error = "Входящие данные оказались пусты",
+                ErrorCode = ErrorCodes.InputDataIsEmpty,
+                Message = null
+            };
+            context.Response.StatusCode = (int)HttpStatusCode.OK;
+            await context.Response.WriteAsJsonAsync(response);
         }
         catch (MobileOperatorServiceIsNotPresented ex)
         {
             _logger.LogError(ex.Message);
-            context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-            await context.Response.WriteAsJsonAsync("Мобильный оператор не поддерживается сервисом");
+            context.Response.StatusCode = (int)HttpStatusCode.OK;
+            response = new ResponseVm()
+            {
+                IsSucsess = false,
+                Error = "Мобильный оператор не поддерживается сервисом",
+                ErrorCode = ErrorCodes.MobileOperatorIsNotSupported,
+                Message = null
+            };
+            await context.Response.WriteAsJsonAsync(response);
         }
         catch (Exception ex)
         {

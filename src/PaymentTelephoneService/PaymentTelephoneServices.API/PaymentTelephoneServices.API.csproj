@@ -24,4 +24,8 @@
     <Folder Include="logs\" />
   </ItemGroup>
 
+	<ItemGroup>
+		<InternalsVisibleTo Include="PaymentTelephoneServices.API.Tests" />
+	</ItemGroup>
+
 </Project>
