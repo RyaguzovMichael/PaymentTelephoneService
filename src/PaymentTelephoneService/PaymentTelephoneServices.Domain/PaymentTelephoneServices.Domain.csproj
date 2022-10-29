@@ -8,6 +8,8 @@
 
 	<ItemGroup>
 		<InternalsVisibleTo Include="PaymentTelephoneServices.API" />
+		<InternalsVisibleTo Include="PaymentTelephoneServices.Application" />
+		<InternalsVisibleTo Include="PaymentTelephoneServices.Infrastructure" />
 	</ItemGroup>
 
 </Project>

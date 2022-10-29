@@ -7,11 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MediatR" Version="11.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PaymentTelephoneServices.Application\PaymentTelephoneServices.Application.csproj" />
     <ProjectReference Include="..\PaymentTelephoneServices.Domain\PaymentTelephoneServices.Domain.csproj" />
+    <ProjectReference Include="..\PaymentTelephoneServices.Infrastructure\PaymentTelephoneServices.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

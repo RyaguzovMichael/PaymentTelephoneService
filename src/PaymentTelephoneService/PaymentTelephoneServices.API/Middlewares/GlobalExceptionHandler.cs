@@ -38,6 +38,12 @@ internal class GlobalExceptionHandler
             context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
             await context.Response.WriteAsJsonAsync("Входящие данные оказались пусты");
         }
+        catch (MobileOperatorServiceIsNotPresented ex)
+        {
+            _logger.LogError(ex.Message);
+            context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+            await context.Response.WriteAsJsonAsync("Мобильный оператор не поддерживается сервисом");
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex.Message);
