@@ -1,6 +1,7 @@
 ﻿using PaymentTelephoneServices.API.Models;
 using PaymentTelephoneServices.Domain.Exceptions;
 using System.Net;
+using PaymentTelephoneServices.API.Services;
 
 namespace PaymentTelephoneServices.API.Middlewares;
 
@@ -9,13 +10,15 @@ internal class GlobalExceptionHandler
     private readonly ILogger<GlobalExceptionHandler> _logger;
     private readonly RequestDelegate _next;
 
-    public GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger, RequestDelegate next)
+    public GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger, 
+                                  RequestDelegate next 
+                                  )
     {
         _logger = logger;
         _next = next;
     }
 
-    public async Task InvokeAsync(HttpContext context)
+    public async Task InvokeAsync(HttpContext context, GlobalErrorsStringLocalizer localizer)
     {
         ResponseVm response;
         try
@@ -24,11 +27,11 @@ internal class GlobalExceptionHandler
         }
         catch (PhoneValidationException ex)
         {
-            _logger.LogError(ex.Message); 
+            _logger.LogWarning(ex.Message); 
             response = new ResponseVm()
             {
                 IsSuccess = false,
-                Error = "Введённый телефонный номер имеет неверный формат. Верный формат: +# (###) ### ## ##",
+                Error = localizer["InvalidPhoneNumberInput"],
                 ErrorCode = ErrorCodes.InvalidPhoneNumberInput,
                 Message = null
             };
@@ -37,11 +40,11 @@ internal class GlobalExceptionHandler
         }
         catch (PaymentAmountValidationException ex)
         {
-            _logger.LogError(ex.Message);
+            _logger.LogWarning(ex.Message);
             response = new ResponseVm()
             {
                 IsSuccess = false,
-                Error = "Минимальная сумма пополнения равна 1 тенге",
+                Error = localizer["InvalidPaymentAmountInput"],
                 ErrorCode = ErrorCodes.InvalidPaymentAmountInput,
                 Message = null
             };
@@ -50,11 +53,11 @@ internal class GlobalExceptionHandler
         }
         catch (NullReferenceException ex)
         {
-            _logger.LogError("The argument is null or empty: " + ex.Message);
+            _logger.LogWarning("The argument is null or empty: " + ex.Message);
             response = new ResponseVm()
             {
                 IsSuccess = false,
-                Error = "Входящие данные оказались пусты",
+                Error = localizer["InputDataIsEmpty"],
                 ErrorCode = ErrorCodes.InputDataIsEmpty,
                 Message = null
             };
@@ -63,12 +66,12 @@ internal class GlobalExceptionHandler
         }
         catch (MobileOperatorServiceIsNotPresented ex)
         {
-            _logger.LogError(ex.Message);
+            _logger.LogWarning(ex.Message);
             context.Response.StatusCode = (int)HttpStatusCode.OK;
             response = new ResponseVm()
             {
                 IsSuccess = false,
-                Error = "Мобильный оператор не поддерживается сервисом",
+                Error = localizer["MobileOperatorIsNotSupported"],
                 ErrorCode = ErrorCodes.MobileOperatorIsNotSupported,
                 Message = null
             };
@@ -78,7 +81,7 @@ internal class GlobalExceptionHandler
         {
             _logger.LogError(ex.Message);
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-            await context.Response.WriteAsJsonAsync("Что то пошло не так");
+            await context.Response.WriteAsJsonAsync(localizer["Error500"]);
         }
     }
 }

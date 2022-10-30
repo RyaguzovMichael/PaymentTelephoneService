@@ -33,4 +33,34 @@
 		<InternalsVisibleTo Include="PaymentTelephoneServices.API.Tests" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <EmbeddedResource Update="Resources\Controllers\PaymentController.kk.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>PaymentController.kk.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	  <EmbeddedResource Update="Resources\Controllers\PaymentController.ru.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>PaymentController.ru.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Resources\Controllers\PaymentController.kk.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>PaymentController.kk.resx</DependentUpon>
+	  </Compile>
+	  <Compile Update="Resources\Controllers\PaymentController.ru.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>PaymentController.ru.resx</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Update="Resources\GlobalExceptionHandlerLocale.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
+
 </Project>

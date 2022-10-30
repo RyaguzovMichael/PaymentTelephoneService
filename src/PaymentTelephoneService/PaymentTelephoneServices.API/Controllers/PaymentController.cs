@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using PaymentTelephoneServices.API.Models;
 using PaymentTelephoneServices.Application.Features.SetPayment;
 using PaymentTelephoneServices.Domain.Models;
@@ -10,10 +11,12 @@ namespace PaymentTelephoneServices.API.Controllers;
 public class PaymentController : Controller
 {
     private readonly IMediator _mediator;
+    private readonly IStringLocalizer<PaymentController> _localizer;
 
-    public PaymentController(IMediator mediator)
+    public PaymentController(IMediator mediator, IStringLocalizer<PaymentController> localizer)
     {
         _mediator = mediator;
+        _localizer = localizer;
     }
 
     [HttpPost("SetPayment")]
@@ -29,14 +32,14 @@ public class PaymentController : Controller
                 IsSuccess = true,
                 Error = null,
                 ErrorCode = ErrorCodes.Success,
-                Message = "Ваш запрос был успешно выполнен"
+                Message = _localizer["SuccessPayment"] 
             };
             return Ok(response);
         }
         response = new ResponseVm()
         {
             IsSuccess = false,
-            Error = "Ваш запрос не был обработан по техническим причинам, повторите позже",
+            Error = _localizer["ErrorPayment"],
             ErrorCode = ErrorCodes.MobileOperatorServicesError,
             Message = null
         };
