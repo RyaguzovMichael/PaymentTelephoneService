@@ -25,22 +25,18 @@ internal class MobileOperatorServicesAggregator : IMobileOperatorServicesAggrega
 
     public async Task<bool> SendPaymentAsync(Payment payment, CancellationToken cancellationToken)
     {
-        if(_options.CodeOperatorServicePairs.TryGetValue(payment.PhoneNumber.OperatorCode, out Type serviceType))
+        if (!_options.CodeOperatorServicePairs.TryGetValue(payment.PhoneNumber.OperatorCode, out Type? serviceType))
+            throw new MobileOperatorServiceIsNotPresented(
+                $"Mobile operator service is not presented for mobile code: {payment.PhoneNumber.OperatorCode}");
+        try
         {
-            try
-            {
-                IMobileOperatorService service = (IMobileOperatorService)ActivatorUtilities.CreateInstance(_serviceProvider, serviceType);
-                return await service.SendPaymentAsync(payment, cancellationToken);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                throw;
-            }
+            var service = (IMobileOperatorService)ActivatorUtilities.CreateInstance(_serviceProvider, serviceType!);
+            return await service.SendPaymentAsync(payment, cancellationToken);
         }
-        else
+        catch (Exception ex)
         {
-            throw new MobileOperatorServiceIsNotPresented($"Mobile operator service is not presented for mobile code: {payment.PhoneNumber.OperatorCode}");
+            _logger.LogError(ex.Message);
+            throw;
         }
     }
 }

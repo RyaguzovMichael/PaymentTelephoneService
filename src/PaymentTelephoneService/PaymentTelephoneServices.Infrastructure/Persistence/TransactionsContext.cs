@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PaymentTelephoneServices.Domain.DbModels;
-using PaymentTelephoneServices.Infrastructure.Persistanse.DbMaps;
+using PaymentTelephoneServices.Infrastructure.Persistence.DbMaps;
 
-namespace PaymentTelephoneServices.Infrastructure.Persistanse;
+namespace PaymentTelephoneServices.Infrastructure.Persistence;
 
 internal class TransactionsContext : DbContext
 {

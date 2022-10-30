@@ -5,8 +5,8 @@ using PaymentTelephoneServices.Application.Contracts;
 using PaymentTelephoneServices.Domain.DbModels;
 using PaymentTelephoneServices.Domain.Models;
 using PaymentTelephoneServices.Domain.OptionModels;
-using PaymentTelephoneServices.Infrastructure.Persistanse;
 using System.Text.Json;
+using PaymentTelephoneServices.Infrastructure.Persistence;
 
 namespace PaymentTelephoneServices.Infrastructure.Services;
 
@@ -31,8 +31,8 @@ internal class PaymentTransactionsDbService : IPaymentTransactionsDbService
         if (operatorName == null)
         {
             _logger.LogWarning($"Payment {JsonSerializer.Serialize(payment, new JsonSerializerOptions() { WriteIndented = true })}" +
-                                                     $" addressed to unknown  operator.\n" +
-                                                     $"Transaction is not saved in Db.");
+                               $" addressed to unknown  operator.\n" +
+                               $"Transaction is not saved in Db.");
             return;
         }
         Operator operatorEntity = await _context.Operators.FirstAsync(entity => entity.Name == operatorName, cancellationToken: cancellationToken);
@@ -63,12 +63,10 @@ internal class PaymentTransactionsDbService : IPaymentTransactionsDbService
         bool hasChanges = false;
         foreach (var item in _operatorCodes.Value.OperatorCodes)
         {
-            if(!await _context.Operators.AnyAsync(e => e.Name == item.OperatorName))
-            {
-                hasChanges = true;
-                await _context.AddAsync(new Operator() { Name = item.OperatorName });
-            }
+            if (await _context.Operators.AnyAsync(e => e.Name == item.OperatorName, cancellationToken: cancellationToken)) continue;
+            hasChanges = true;
+            await _context.AddAsync(new Operator() { Name = item.OperatorName }, cancellationToken);
         }
-        if (hasChanges) await _context.SaveChangesAsync();        
+        if (hasChanges) await _context.SaveChangesAsync(cancellationToken);        
     }
 }

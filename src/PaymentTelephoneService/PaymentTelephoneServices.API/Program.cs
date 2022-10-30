@@ -22,8 +22,8 @@ using (var scope = app.Services.CreateScope())
 {
     try
     {
-        var DbService = scope.ServiceProvider.GetRequiredService<IPaymentTransactionsDbService>();
-        await DbService.SetMobileOperatorsData(new CancellationToken());
+        var dbService = scope.ServiceProvider.GetRequiredService<IPaymentTransactionsDbService>();
+        await dbService.SetMobileOperatorsData(new CancellationToken());
     }
     catch (Exception e)
     {

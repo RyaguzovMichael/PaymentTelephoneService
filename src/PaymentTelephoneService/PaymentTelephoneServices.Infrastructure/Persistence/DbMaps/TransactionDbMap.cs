@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PaymentTelephoneServices.Domain.DbModels;
 
-namespace PaymentTelephoneServices.Infrastructure.Persistanse.DbMaps;
+namespace PaymentTelephoneServices.Infrastructure.Persistence.DbMaps;
 
 internal class TransactionDbMap : IEntityTypeConfiguration<Transaction>
 {

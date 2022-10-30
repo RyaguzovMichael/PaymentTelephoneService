@@ -7,6 +7,6 @@ internal class Transaction
     public Operator Operator { get; set; }
     public int UserId { get; set; }
     public User User { get; set; }
-    public decimal PaymentAmount { get; set; }
-    public DateTime TransactionTime { get; set; }
+    public decimal PaymentAmount { get; init; }
+    public DateTime TransactionTime { get; init; }
 }

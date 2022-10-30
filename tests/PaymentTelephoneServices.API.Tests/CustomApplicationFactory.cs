@@ -15,12 +15,12 @@ public class CustomApplicationFactory<TProgram> : WebApplicationFactory<TProgram
     {
         builder.ConfigureServices(services =>
         {
-            var repositoryDesc = services.FirstOrDefault(s => s.ServiceType == typeof(IPaymentTransactionsDbService));
+            var repositoryDesc = services.First(s => s.ServiceType == typeof(IPaymentTransactionsDbService));
             services.Remove(repositoryDesc);
             services.AddTransient<IPaymentTransactionsDbService, MoqRepository>();
-            var mobileOperatorServicesAggregatorOptions = services.FirstOrDefault(s => s.ServiceType == typeof(MobileOperatorServiceAggregatorOptions));
+            var mobileOperatorServicesAggregatorOptions = services.First(s => s.ServiceType == typeof(MobileOperatorServiceAggregatorOptions));
             services.Remove(mobileOperatorServicesAggregatorOptions);
-            var logger = services.BuildServiceProvider().GetService<ILogger<MobileOperatorServiceAggregatorOptions>>();
+            var logger = services.BuildServiceProvider().GetRequiredService<ILogger<MobileOperatorServiceAggregatorOptions>>();
             services.AddSingleton(provider => new MobileOperatorServiceAggregatorOptions(configuration =>
             {
                 configuration.Add("701", typeof(MoqMobileOperatorService));

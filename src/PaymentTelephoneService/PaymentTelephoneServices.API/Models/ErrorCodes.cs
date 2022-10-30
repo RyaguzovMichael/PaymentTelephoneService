@@ -2,8 +2,8 @@
 
 public enum ErrorCodes
 {
-    Sucsess = 0,
-    MobileOperatorServisesError,
+    Success = 0,
+    MobileOperatorServicesError,
     InvalidPhoneNumberInput,
     InvalidPaymentAmountInput,
     InputDataIsEmpty,

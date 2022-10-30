@@ -27,7 +27,7 @@ internal class GlobalExceptionHandler
             _logger.LogError(ex.Message); 
             response = new ResponseVm()
             {
-                IsSucsess = false,
+                IsSuccess = false,
                 Error = "Введённый телефонный номер имеет неверный формат. Верный формат: +# (###) ### ## ##",
                 ErrorCode = ErrorCodes.InvalidPhoneNumberInput,
                 Message = null
@@ -40,7 +40,7 @@ internal class GlobalExceptionHandler
             _logger.LogError(ex.Message);
             response = new ResponseVm()
             {
-                IsSucsess = false,
+                IsSuccess = false,
                 Error = "Минимальная сумма пополнения равна 1 тенге",
                 ErrorCode = ErrorCodes.InvalidPaymentAmountInput,
                 Message = null
@@ -53,7 +53,7 @@ internal class GlobalExceptionHandler
             _logger.LogError("The argument is null or empty: " + ex.Message);
             response = new ResponseVm()
             {
-                IsSucsess = false,
+                IsSuccess = false,
                 Error = "Входящие данные оказались пусты",
                 ErrorCode = ErrorCodes.InputDataIsEmpty,
                 Message = null
@@ -67,7 +67,7 @@ internal class GlobalExceptionHandler
             context.Response.StatusCode = (int)HttpStatusCode.OK;
             response = new ResponseVm()
             {
-                IsSucsess = false,
+                IsSuccess = false,
                 Error = "Мобильный оператор не поддерживается сервисом",
                 ErrorCode = ErrorCodes.MobileOperatorIsNotSupported,
                 Message = null

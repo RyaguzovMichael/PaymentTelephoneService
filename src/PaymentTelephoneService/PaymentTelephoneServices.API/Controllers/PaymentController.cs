@@ -26,18 +26,18 @@ public class PaymentController : Controller
         {
             response = new ResponseVm()
             {
-                IsSucsess = true,
+                IsSuccess = true,
                 Error = null,
-                ErrorCode = ErrorCodes.Sucsess,
+                ErrorCode = ErrorCodes.Success,
                 Message = "Ваш запрос был успешно выполнен"
             };
             return Ok(response);
         }
         response = new ResponseVm()
         {
-            IsSucsess = false,
+            IsSuccess = false,
             Error = "Ваш запрос не был обработан по техническим причинам, повторите позже",
-            ErrorCode = ErrorCodes.MobileOperatorServisesError,
+            ErrorCode = ErrorCodes.MobileOperatorServicesError,
             Message = null
         };
         return Ok(response);

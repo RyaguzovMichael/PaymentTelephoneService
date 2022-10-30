@@ -5,12 +5,12 @@ namespace PaymentTelephoneServices.Infrastructure.DependencyInjection.Options;
 
 internal class MobileOperatorServiceAggregatorOptions
 {
-    public Dictionary<string, Type> CodeOperatorServicePairs { get; set; }
+    public Dictionary<string, Type?> CodeOperatorServicePairs { get; }
 
-	public MobileOperatorServiceAggregatorOptions(Action<Dictionary<string, Type>> configure, ILogger<MobileOperatorServiceAggregatorOptions> logger)
+	public MobileOperatorServiceAggregatorOptions(Action<Dictionary<string, Type?>> configure, ILogger<MobileOperatorServiceAggregatorOptions> logger)
 	{
-        CodeOperatorServicePairs = new Dictionary<string, Type>();
-        Dictionary<string, Type> keyValuePairs = new();
+        CodeOperatorServicePairs = new Dictionary<string, Type?>();
+        Dictionary<string, Type?> keyValuePairs = new();
         configure.Invoke(keyValuePairs);
 
         foreach (var keyValuePair in keyValuePairs)

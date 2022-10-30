@@ -9,12 +9,10 @@ namespace PaymentTelephoneServices.API.Tests;
 public class SetPaymentTests : IClassFixture<CustomApplicationFactory<Program>>
 {
     private readonly HttpClient _httpClient;
-    private readonly CustomApplicationFactory<Program> _factory;
 
     public SetPaymentTests(CustomApplicationFactory<Program> factory)
     {
         _httpClient = factory.CreateClient();
-        _factory = factory;
     }
 
     public static IEnumerable<object[]> ValidData()
@@ -47,8 +45,8 @@ public class SetPaymentTests : IClassFixture<CustomApplicationFactory<Program>>
         // Assert
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        data.IsSucsess.Should().BeTrue();
-        data.ErrorCode.Should().Be(ErrorCodes.Sucsess);
+        data!.IsSuccess.Should().BeTrue();
+        data.ErrorCode.Should().Be(ErrorCodes.Success);
     }
 
     public static IEnumerable<object[]> InvalidPhoneNumber()
@@ -77,7 +75,7 @@ public class SetPaymentTests : IClassFixture<CustomApplicationFactory<Program>>
         // Assert
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        data.IsSucsess.Should().BeFalse();
+        data!.IsSuccess.Should().BeFalse();
         data.ErrorCode.Should().Be(ErrorCodes.InvalidPhoneNumberInput);
     }
 
@@ -101,7 +99,7 @@ public class SetPaymentTests : IClassFixture<CustomApplicationFactory<Program>>
         // Assert
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        data.IsSucsess.Should().BeFalse();
+        data!.IsSuccess.Should().BeFalse();
         data.ErrorCode.Should().Be(ErrorCodes.InputDataIsEmpty);
     }
 
@@ -133,7 +131,7 @@ public class SetPaymentTests : IClassFixture<CustomApplicationFactory<Program>>
         // Assert
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        data.IsSucsess.Should().BeFalse();
+        data!.IsSuccess.Should().BeFalse();
         data.ErrorCode.Should().Be(ErrorCodes.InvalidPaymentAmountInput);
     }
 
@@ -162,7 +160,7 @@ public class SetPaymentTests : IClassFixture<CustomApplicationFactory<Program>>
         // Assert
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        data.IsSucsess.Should().BeFalse();
+        data!.IsSuccess.Should().BeFalse();
         data.ErrorCode.Should().Be(ErrorCodes.MobileOperatorIsNotSupported);
     }
 }

@@ -4,8 +4,8 @@ namespace PaymentTelephoneServices.API.Models;
 
 public class ResponseVm
 {
-    [JsonPropertyName("isSucsess")]
-    public bool IsSucsess { get; set; }
+    [JsonPropertyName("isSuccess")]
+    public bool IsSuccess { get; set; }
     [JsonPropertyName("message")]
     public string? Message { get; set; }
     [JsonPropertyName("error")]
