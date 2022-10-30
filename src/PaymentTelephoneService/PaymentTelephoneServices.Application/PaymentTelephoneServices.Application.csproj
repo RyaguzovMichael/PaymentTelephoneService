@@ -12,6 +12,7 @@
 
 	<ItemGroup>
 		<InternalsVisibleTo Include="PaymentTelephoneServices.API" />
+		<InternalsVisibleTo Include="PaymentTelephoneServices.API.Tests" />
 		<InternalsVisibleTo Include="PaymentTelephoneServices.Infrastructure" />
 	</ItemGroup>
 

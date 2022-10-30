@@ -21,7 +21,7 @@ namespace PaymentTelephoneServices.Infrastructure.Services.MobileOperatorService
 
         public Task<bool> SendPaymentAsync(Payment payment, CancellationToken cancellationToken)
         {
-            _logger.LogInformation(JsonSerializer.Serialize(payment, _serializerOptions) + " - payment is send to Active sucsessful");
+            _logger.LogInformation(JsonSerializer.Serialize(payment, _serializerOptions) + " - payment is send to Active successful");
             return Task.FromResult(true);
         }
     }

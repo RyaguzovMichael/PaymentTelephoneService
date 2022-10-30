@@ -5,5 +5,5 @@ namespace PaymentTelephoneServices.Application.Features.SetPayment;
 
 internal class SetPaymentCommand : IRequest<bool>
 {
-    public Payment Payment { get; set; }
+    public Payment Payment { get; init; }
 }
