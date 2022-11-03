@@ -1,53 +1,40 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>170e1795-971f-4633-bc9a-ae234cb069e3</UserSecretsId>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<UserSecretsId>170e1795-971f-4633-bc9a-ae234cb069e3</UserSecretsId>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="MediatR" Version="11.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.10">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Serilog" Version="2.12.0" />
-    <PackageReference Include="Serilog.Extensions.Autofac.DependencyInjection" Version="5.0.0" />
-    <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="MediatR" Version="11.0.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.10">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="NLog" Version="5.0.5" />
+		<PackageReference Include="NLog.Web.AspNetCore" Version="5.1.5" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\PaymentTelephoneServices.Application\PaymentTelephoneServices.Application.csproj" />
-    <ProjectReference Include="..\PaymentTelephoneServices.Domain\PaymentTelephoneServices.Domain.csproj" />
-    <ProjectReference Include="..\PaymentTelephoneServices.Infrastructure\PaymentTelephoneServices.Infrastructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="logs\" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\PaymentTelephoneServices.Application\PaymentTelephoneServices.Application.csproj" />
+		<ProjectReference Include="..\PaymentTelephoneServices.Domain\PaymentTelephoneServices.Domain.csproj" />
+		<ProjectReference Include="..\PaymentTelephoneServices.Infrastructure\PaymentTelephoneServices.Infrastructure.csproj" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<InternalsVisibleTo Include="PaymentTelephoneServices.API.Tests" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <EmbeddedResource Update="Resources\Controllers\PaymentController.kk.resx">
-	    <Generator>ResXFileCodeGenerator</Generator>
-	    <LastGenOutput>PaymentController.kk.Designer.cs</LastGenOutput>
-	  </EmbeddedResource>
-	  <EmbeddedResource Update="Resources\Controllers\PaymentController.ru.resx">
-	    <Generator>ResXFileCodeGenerator</Generator>
-	    <LastGenOutput>PaymentController.ru.Designer.cs</LastGenOutput>
-	  </EmbeddedResource>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Content Update="Resources\GlobalExceptionHandlerLocale.json">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </Content>
+		<Content Update="nlog.config">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Update="Resources\GlobalExceptionHandlerLocale.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
 	</ItemGroup>
 
 </Project>

@@ -1,5 +1,5 @@
-﻿using PaymentTelephoneServices.Domain.OptionModels;
-using Serilog;
+﻿using NLog.Web;
+using PaymentTelephoneServices.Domain.OptionModels;
 
 namespace PaymentTelephoneServices.API.DependencyInjection;
 
@@ -12,12 +12,11 @@ internal static class DependencyInjection
         return services;
     }
 
-    public static IServiceCollection AddSerilogLogging(this IServiceCollection services, ILoggingBuilder loggingBuilder)
+    public static WebApplicationBuilder AddLogging(this WebApplicationBuilder builder)
     {
-        string logFilePath = Path.Combine(Directory.GetCurrentDirectory(), "logs", "application.log");
-        var logger = new LoggerConfiguration().WriteTo.File(logFilePath, rollingInterval: RollingInterval.Day).CreateLogger();
-        loggingBuilder.AddSerilog(logger);
+        builder.Logging.ClearProviders();
+        builder.Host.UseNLog();
 
-        return services;
+        return builder;
     }
 }
