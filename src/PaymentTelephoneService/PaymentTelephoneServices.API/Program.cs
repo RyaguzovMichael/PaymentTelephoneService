@@ -1,11 +1,10 @@
-using System.Globalization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using PaymentTelephoneServices.API.DependencyInjection;
 using PaymentTelephoneServices.API.Middlewares;
 using PaymentTelephoneServices.API.Services;
-using PaymentTelephoneServices.Application.Contracts;
 using PaymentTelephoneServices.Application.DependencyInjection;
 using PaymentTelephoneServices.Infrastructure.DependencyInjection;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -22,20 +21,6 @@ services.AddApplicationServices();
 services.AddInfrastructureServices(builder.Configuration);
 
 var app = builder.Build();
-
-using (var scope = app.Services.CreateScope())
-{
-    try
-    {
-        var dbService = scope.ServiceProvider.GetRequiredService<IPaymentTransactionsDbService>();
-        await dbService.SetMobileOperatorsData(new CancellationToken());
-    }
-    catch (Exception e)
-    {
-        var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
-        logger.LogError(e, "An error occurred while seeding the database.");
-    }
-}
 
 var supportedCultures = new[]
 {
