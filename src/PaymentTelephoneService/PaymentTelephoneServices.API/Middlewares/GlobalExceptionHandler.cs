@@ -1,24 +1,26 @@
 ﻿using PaymentTelephoneServices.API.Models;
 using PaymentTelephoneServices.Domain.Exceptions;
 using System.Net;
-using PaymentTelephoneServices.API.Services;
+using Microsoft.Extensions.Localization;
 
 namespace PaymentTelephoneServices.API.Middlewares;
 
 internal class GlobalExceptionHandler
 {
     private readonly ILogger<GlobalExceptionHandler> _logger;
+    private readonly IStringLocalizer<GlobalExceptionHandler> _localizer;
     private readonly RequestDelegate _next;
 
     public GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger, 
-                                  RequestDelegate next 
-                                  )
+                                  RequestDelegate next,
+                                  IStringLocalizer<GlobalExceptionHandler> localizer)
     {
         _logger = logger;
         _next = next;
+        _localizer = localizer;
     }
 
-    public async Task InvokeAsync(HttpContext context, GlobalErrorsStringLocalizer localizer)
+    public async Task InvokeAsync(HttpContext context)
     {
         ResponseVm response;
         try
@@ -31,7 +33,7 @@ internal class GlobalExceptionHandler
             response = new ResponseVm()
             {
                 IsSuccess = false,
-                Error = localizer["InvalidPhoneNumberInput"],
+                Error = _localizer["InvalidPhoneNumberInput"],
                 ErrorCode = ErrorCodes.InvalidPhoneNumberInput,
                 Message = null
             };
@@ -44,7 +46,7 @@ internal class GlobalExceptionHandler
             response = new ResponseVm()
             {
                 IsSuccess = false,
-                Error = localizer["InvalidPaymentAmountInput"],
+                Error = _localizer["InvalidPaymentAmountInput"],
                 ErrorCode = ErrorCodes.InvalidPaymentAmountInput,
                 Message = null
             };
@@ -57,7 +59,7 @@ internal class GlobalExceptionHandler
             response = new ResponseVm()
             {
                 IsSuccess = false,
-                Error = localizer["InputDataIsEmpty"],
+                Error = _localizer["InputDataIsEmpty"],
                 ErrorCode = ErrorCodes.InputDataIsEmpty,
                 Message = null
             };
@@ -71,7 +73,7 @@ internal class GlobalExceptionHandler
             response = new ResponseVm()
             {
                 IsSuccess = false,
-                Error = localizer["MobileOperatorIsNotSupported"],
+                Error = _localizer["MobileOperatorIsNotSupported"],
                 ErrorCode = ErrorCodes.MobileOperatorIsNotSupported,
                 Message = null
             };
@@ -81,7 +83,7 @@ internal class GlobalExceptionHandler
         {
             _logger.LogError(ex.Message);
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-            await context.Response.WriteAsJsonAsync(localizer["Error500"]);
+            await context.Response.WriteAsJsonAsync(_localizer["Error500"]);
         }
     }
 }

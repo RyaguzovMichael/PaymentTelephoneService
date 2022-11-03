@@ -1,9 +1,7 @@
-using Microsoft.AspNetCore.Mvc.Razor;
 using NLog;
 using NLog.Web;
 using PaymentTelephoneServices.API.DependencyInjection;
 using PaymentTelephoneServices.API.Middlewares;
-using PaymentTelephoneServices.API.Services;
 using PaymentTelephoneServices.Application.DependencyInjection;
 using PaymentTelephoneServices.Infrastructure.DependencyInjection;
 using System.Globalization;
@@ -20,10 +18,9 @@ try
 
     // Add services to the container.
     services.AddLocalization(options => options.ResourcesPath = "Resources");
-    services.AddControllers().AddMvcLocalization(LanguageViewLocationExpanderFormat.Suffix);
+    services.AddControllers();
     services.AddEndpointsApiExplorer();
     services.AddSwaggerGen();
-    services.AddSingleton<GlobalErrorsStringLocalizer>();
     services.AddApiOptions(builder.Configuration);
     services.AddApplicationServices();
     services.AddInfrastructureServices(builder.Configuration);
