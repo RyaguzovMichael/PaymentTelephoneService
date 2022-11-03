@@ -18,7 +18,7 @@ services.AddSwaggerGen();
 services.AddSingleton<GlobalErrorsStringLocalizer>();
 services.AddApiOptions(builder.Configuration);
 services.AddSerilogLogging(builder.Logging);
-services.AddApplicationServices(builder.Configuration);
+services.AddApplicationServices();
 services.AddInfrastructureServices(builder.Configuration);
 
 var app = builder.Build();

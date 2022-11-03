@@ -1,5 +1,5 @@
-﻿using PaymentTelephoneServices.Domain.Models;
-using PaymentTelephoneServices.Infrastructure.Services.Interfaces;
+﻿using PaymentTelephoneServices.Application.Contracts;
+using PaymentTelephoneServices.Domain.Models;
 
 namespace PaymentTelephoneServices.API.Tests.Repository;
 

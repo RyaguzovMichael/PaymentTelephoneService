@@ -45,19 +45,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Resources\Controllers\PaymentController.kk.Designer.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>PaymentController.kk.resx</DependentUpon>
-	  </Compile>
-	  <Compile Update="Resources\Controllers\PaymentController.ru.Designer.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>PaymentController.ru.resx</DependentUpon>
-	  </Compile>
-	</ItemGroup>
-
-	<ItemGroup>
 	  <Content Update="Resources\GlobalExceptionHandlerLocale.json">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>

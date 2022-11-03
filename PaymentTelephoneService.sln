@@ -7,17 +7,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{CC
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PaymentTelephoneService", "PaymentTelephoneService", "{10FE3420-E655-4A76-AE83-95EB5AFA8B01}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentTelephoneServices.Application", "src\PaymentTelephoneService\PaymentTelephoneServices.Application\PaymentTelephoneServices.Application.csproj", "{31B39B0A-A4DA-4D96-AAA2-CC371BD513E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentTelephoneServices.Application", "src\PaymentTelephoneService\PaymentTelephoneServices.Application\PaymentTelephoneServices.Application.csproj", "{31B39B0A-A4DA-4D96-AAA2-CC371BD513E0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentTelephoneServices.API", "src\PaymentTelephoneService\PaymentTelephoneServices.API\PaymentTelephoneServices.API.csproj", "{52D71159-6417-455D-B654-FA1CD9404AA2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentTelephoneServices.Domain", "src\PaymentTelephoneService\PaymentTelephoneServices.Domain\PaymentTelephoneServices.Domain.csproj", "{65437947-DA2E-4750-A6A1-347D55BC780D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentTelephoneServices.Infrastructure", "src\PaymentTelephoneService\PaymentTelephoneServices.Infrastructure\PaymentTelephoneServices.Infrastructure.csproj", "{FFCE02A8-26FD-493E-B3E8-AAF70D51B585}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentTelephoneServices.Infrastructure", "src\PaymentTelephoneService\PaymentTelephoneServices.Infrastructure\PaymentTelephoneServices.Infrastructure.csproj", "{FFCE02A8-26FD-493E-B3E8-AAF70D51B585}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{BFE69677-835F-47B0-A411-A555FC49551B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentTelephoneServices.API.Tests", "tests\PaymentTelephoneServices.API.Tests\PaymentTelephoneServices.API.Tests.csproj", "{0431732F-E3D7-454A-B96E-1F03B6C8478B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PaymentTelephoneServices.API.Tests", "tests\PaymentTelephoneServices.API.Tests\PaymentTelephoneServices.API.Tests.csproj", "{0431732F-E3D7-454A-B96E-1F03B6C8478B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

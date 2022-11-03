@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using PaymentTelephoneServices.API.Tests.Repository;
 using PaymentTelephoneServices.Application.Contracts;
-using PaymentTelephoneServices.Infrastructure.DependencyInjection.Options;
+using PaymentTelephoneServices.Application.DependencyInjection;
 
 namespace PaymentTelephoneServices.API.Tests;
 
@@ -18,19 +17,14 @@ public class CustomApplicationFactory<TProgram> : WebApplicationFactory<TProgram
             var repositoryDesc = services.First(s => s.ServiceType == typeof(IPaymentTransactionsDbService));
             services.Remove(repositoryDesc);
             services.AddTransient<IPaymentTransactionsDbService, MoqRepository>();
-            var mobileOperatorServicesAggregatorOptions = services.First(s => s.ServiceType == typeof(MobileOperatorServiceAggregatorOptions));
-            services.Remove(mobileOperatorServicesAggregatorOptions);
-            var logger = services.BuildServiceProvider().GetRequiredService<ILogger<MobileOperatorServiceAggregatorOptions>>();
-            services.AddSingleton(provider => new MobileOperatorServiceAggregatorOptions(configuration =>
+
+            var mobileOperatorServisceResolver = services.First(s => s.ServiceType == typeof(MobileOperatorServisceResolver));
+            services.Remove(mobileOperatorServisceResolver);
+            services.AddTransient<MoqMobileOperatorService>();
+            services.AddTransient<MobileOperatorServisceResolver>(provider => operatorName =>
             {
-                configuration.Add("701", typeof(MoqMobileOperatorService));
-                configuration.Add("777", typeof(MoqMobileOperatorService));
-                configuration.Add("705", typeof(MoqMobileOperatorService));
-                configuration.Add("707", typeof(MoqMobileOperatorService));
-                configuration.Add("747", typeof(MoqMobileOperatorService));
-                configuration.Add("700", typeof(MoqMobileOperatorService));
-                configuration.Add("708", typeof(MoqMobileOperatorService));
-            }, logger));
+                return provider.GetRequiredService<MoqMobileOperatorService>();
+            });
         });
     }
 }
