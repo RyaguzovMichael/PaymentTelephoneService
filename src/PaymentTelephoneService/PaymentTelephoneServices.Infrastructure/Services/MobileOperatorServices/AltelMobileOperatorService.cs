@@ -13,7 +13,7 @@ internal class AltelMobileOperatorService : IMobileOperatorService
     public AltelMobileOperatorService(ILogger<AltelMobileOperatorService> logger)
     {
         _logger = logger;
-        _serializerOptions = new()
+        _serializerOptions = new JsonSerializerOptions()
         {
             WriteIndented = true
         };
@@ -21,7 +21,7 @@ internal class AltelMobileOperatorService : IMobileOperatorService
 
     public Task<bool> SendPaymentAsync(Payment payment, CancellationToken cancellationToken)
     {
-        _logger.LogInformation(JsonSerializer.Serialize(payment, _serializerOptions) + " - payment is send to Altel sucsessful");
+        _logger.LogInformation(JsonSerializer.Serialize(payment, _serializerOptions) + " - payment is send to Altel successful");
         return Task.FromResult(true);
     }
 }

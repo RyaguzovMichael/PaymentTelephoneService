@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace PaymentTelephoneServices.Application.DependencyInjection;
 
-internal delegate IMobileOperatorService MobileOperatorServisceResolver(string operatorName);
+internal delegate IMobileOperatorService MobileOperatorServiceResolver(string operatorName);
 
 internal static class DependencyInjection
 {

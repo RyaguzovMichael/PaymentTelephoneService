@@ -31,7 +31,7 @@ try
     {
     new CultureInfo("kk"),
     new CultureInfo("ru")
-};
+    };
     app.UseRequestLocalization(new RequestLocalizationOptions
     {
         SupportedCultures = supportedCultures,

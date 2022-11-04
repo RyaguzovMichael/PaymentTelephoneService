@@ -13,7 +13,7 @@ internal class BeelineMobileOperatorService : IMobileOperatorService
     public BeelineMobileOperatorService(ILogger<BeelineMobileOperatorService> logger)
     {
         _logger = logger;
-        _serializerOptions = new()
+        _serializerOptions = new JsonSerializerOptions()
         {
             WriteIndented = true
         };
@@ -21,7 +21,7 @@ internal class BeelineMobileOperatorService : IMobileOperatorService
 
     public Task<bool> SendPaymentAsync(Payment payment, CancellationToken cancellationToken)
     {
-        _logger.LogInformation(JsonSerializer.Serialize(payment, _serializerOptions) + " - payment is send to Beeline sucsessful");
+        _logger.LogInformation(JsonSerializer.Serialize(payment, _serializerOptions) + " - payment is send to Beeline successful");
         return Task.FromResult(true);
     }
 }

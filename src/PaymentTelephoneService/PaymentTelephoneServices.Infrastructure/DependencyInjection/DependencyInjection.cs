@@ -19,7 +19,7 @@ internal static class DependencyInjection
         services.AddTransient<BeelineMobileOperatorService>();
         services.AddTransient<TeleTwoMobileOperatorService>();
 
-        services.AddTransient<MobileOperatorServisceResolver>(provider => operatorName =>
+        services.AddTransient<MobileOperatorServiceResolver>(provider => operatorName =>
         {
             return operatorName switch
             {
@@ -31,23 +31,7 @@ internal static class DependencyInjection
                                 $"Mobile operator service is not presented by name: {operatorName}"),
             };
         });
-
-
-        //var logger = services.BuildServiceProvider().GetRequiredService<ILogger<MobileOperatorServiceAggregatorOptions>>();
-        //services.AddSingleton(provider => new MobileOperatorServiceAggregatorOptions(configure =>
-        //{
-        //    configure.Add("701", typeof(ActiveMobileOperatorService));
-        //    configure.Add("777", typeof(BeelineMobileOperatorService));
-        //    configure.Add("705", typeof(BeelineMobileOperatorService));
-        //    configure.Add("707", typeof(TeleTwoMobileOperatorService));
-        //    configure.Add("747", typeof(TeleTwoMobileOperatorService));
-        //    configure.Add("700", typeof(AltelMobileOperatorService));
-        //    configure.Add("708", typeof(AltelMobileOperatorService));
-        //}, logger));
-
-        //services.AddTransient<IMobileOperatorServicesAggregator, MobileOperatorServicesAggregator>();
-
-
+        
         services.AddDbContext<TransactionsContext>(options =>
             options.UseNpgsql(configuration.GetConnectionString("DbConnectionString")));
         services.AddTransient<IPaymentTransactionsDbService, PaymentTransactionsDbService>();

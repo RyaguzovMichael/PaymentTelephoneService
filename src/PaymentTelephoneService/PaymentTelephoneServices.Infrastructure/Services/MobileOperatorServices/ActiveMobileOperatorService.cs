@@ -13,7 +13,7 @@ internal class ActiveMobileOperatorService : IMobileOperatorService
     public ActiveMobileOperatorService(ILogger<ActiveMobileOperatorService> logger)
     {
         _logger = logger;
-        _serializerOptions = new()
+        _serializerOptions = new JsonSerializerOptions()
         {
             WriteIndented = true
         };

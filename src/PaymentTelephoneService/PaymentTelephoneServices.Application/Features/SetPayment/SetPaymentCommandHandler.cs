@@ -12,15 +12,15 @@ internal class SetPaymentCommandHandler : IRequestHandler<SetPaymentCommand, boo
 {
     private readonly ILogger<SetPaymentCommandHandler> _logger;
     private readonly IPaymentTransactionsDbService _paymentTransactionsDbService;
-    private readonly MobileOperatorServisceResolver _mobileOperatorServisceResolver;
+    private readonly MobileOperatorServiceResolver _mobileOperatorServiceResolver;
     private readonly IOptions<OperatorCodesOptions> _options;
 
-    public SetPaymentCommandHandler(MobileOperatorServisceResolver mobileOperatorServisceResolver,
+    public SetPaymentCommandHandler(MobileOperatorServiceResolver mobileOperatorServiceResolver,
                                     IPaymentTransactionsDbService paymentTransactionsDbService,
                                     ILogger<SetPaymentCommandHandler> logger,
                                     IOptions<OperatorCodesOptions> options)
     {
-        _mobileOperatorServisceResolver = mobileOperatorServisceResolver;
+        _mobileOperatorServiceResolver = mobileOperatorServiceResolver;
         _paymentTransactionsDbService = paymentTransactionsDbService;
         _logger = logger;
         _options = options;
@@ -32,7 +32,7 @@ internal class SetPaymentCommandHandler : IRequestHandler<SetPaymentCommand, boo
         if (operatorName is null) 
             throw new MobileOperatorServiceIsNotPresented($"Mobile operator is not presented by " +
                                                           $"operator code: {request.Payment.PhoneNumber.OperatorCode}");
-        IMobileOperatorService mobileOperatorService = _mobileOperatorServisceResolver.Invoke(operatorName);
+        IMobileOperatorService mobileOperatorService = _mobileOperatorServiceResolver.Invoke(operatorName);
         if (!await mobileOperatorService.SendPaymentAsync(request.Payment, cancellationToken)) return false;
         await _paymentTransactionsDbService.SavePaymentTransactionAsync(request.Payment, cancellationToken);
         _logger.LogInformation($"Payment to number: {request.Payment.PhoneNumber} is successfully complete.");

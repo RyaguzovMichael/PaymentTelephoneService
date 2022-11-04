@@ -18,10 +18,10 @@ public class CustomApplicationFactory<TProgram> : WebApplicationFactory<TProgram
             services.Remove(repositoryDesc);
             services.AddTransient<IPaymentTransactionsDbService, MoqRepository>();
 
-            var mobileOperatorServisceResolver = services.First(s => s.ServiceType == typeof(MobileOperatorServisceResolver));
+            var mobileOperatorServisceResolver = services.First(s => s.ServiceType == typeof(MobileOperatorServiceResolver));
             services.Remove(mobileOperatorServisceResolver);
             services.AddTransient<MoqMobileOperatorService>();
-            services.AddTransient<MobileOperatorServisceResolver>(provider => operatorName =>
+            services.AddTransient<MobileOperatorServiceResolver>(provider => operatorName =>
             {
                 return provider.GetRequiredService<MoqMobileOperatorService>();
             });

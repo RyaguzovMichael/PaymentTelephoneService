@@ -13,7 +13,7 @@ internal class TeleTwoMobileOperatorService : IMobileOperatorService
     public TeleTwoMobileOperatorService(ILogger<TeleTwoMobileOperatorService> logger)
     {
         _logger = logger;
-        _serializerOptions = new()
+        _serializerOptions = new JsonSerializerOptions()
         {
             WriteIndented = true
         };
@@ -21,7 +21,7 @@ internal class TeleTwoMobileOperatorService : IMobileOperatorService
 
     public Task<bool> SendPaymentAsync(Payment payment, CancellationToken cancellationToken)
     {
-        _logger.LogInformation(JsonSerializer.Serialize(payment, _serializerOptions) + " - payment is send to Tele-2 sucsessful");
+        _logger.LogInformation(JsonSerializer.Serialize(payment, _serializerOptions) + " - payment is send to Tele-2 successful");
         return Task.FromResult(true);
     }
 }
