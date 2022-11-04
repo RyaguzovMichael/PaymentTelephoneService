@@ -2,7 +2,7 @@
 {
     public class SetPaymentControllerCommand
     {
-        public string PhoneNumber { get; set; }
-        public decimal PaymentAmount { get; set; }
+        public string PhoneNumber { get; init; }
+        public decimal PaymentAmount { get; init; }
     }
 }

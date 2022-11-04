@@ -2,7 +2,7 @@
 
 namespace PaymentTelephoneServices.Application.Contracts;
 
-internal interface IMobileOperatorServicesAggregator
+internal interface IMobileOperatorService
 {
     Task<bool> SendPaymentAsync(Payment payment, CancellationToken cancellationToken);
 }

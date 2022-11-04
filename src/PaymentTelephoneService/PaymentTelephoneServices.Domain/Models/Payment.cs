@@ -9,7 +9,7 @@ internal class Payment
 
     public Payment(string phoneNumber, decimal paymentAmount)
     {
-        if (string.IsNullOrEmpty(phoneNumber))
+        if (string.IsNullOrWhiteSpace(phoneNumber))
             throw new NullReferenceException(nameof(phoneNumber));
         if (paymentAmount < 1m)
             throw new PaymentAmountValidationException($"The inputted payment amount is less then 1. \n" +

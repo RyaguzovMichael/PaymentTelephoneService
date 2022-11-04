@@ -27,27 +27,21 @@ internal class PaymentTransactionsDbService : IPaymentTransactionsDbService
 
     public async Task SavePaymentTransactionAsync(Payment payment, CancellationToken cancellationToken)
     {
-        string? operatorName = _operatorCodes.Value.GetOperatorNameByCode(payment.PhoneNumber.OperatorCode);
-        if (operatorName == null)
+        var operatorName = _operatorCodes.Value.GetOperatorNameByCode(payment.PhoneNumber.OperatorCode);
+        if (operatorName is null)
         {
-            _logger.LogWarning($"Payment {JsonSerializer.Serialize(payment, new JsonSerializerOptions() { WriteIndented = true })}" +
-                               $" addressed to unknown  operator.\n" +
-                               $"Transaction is not saved in Db.");
+            _logger.LogWarning("Payment {} addressed to unknown operator.\nTransaction is not saved in Db.", 
+                               JsonSerializer.Serialize(payment, new JsonSerializerOptions() { WriteIndented = true }));
             return;
         }
-        Operator operatorEntity = await _context.Operators.FirstAsync(entity => entity.Name == operatorName, cancellationToken: cancellationToken);
-        User? user = await _context.Users.FirstOrDefaultAsync(entity => entity.PhoneNumber == payment.PhoneNumber.ToString(), cancellationToken: cancellationToken);
-        if (user is null)
-        {
-            user = new User() { PhoneNumber = payment.PhoneNumber.ToString() };
-            await _context.Users.AddAsync(user, cancellationToken);
-            await _context.SaveChangesAsync(cancellationToken);
-            _logger.LogInformation($"User with number {payment.PhoneNumber} is not found in Db. \nCreated new User");
-        }
+        
+        var operatorEntity = await GetOperatorEntity(operatorName, cancellationToken);
+        var userEntity = await GetUserEntity(payment, cancellationToken);
+
         Transaction transaction = new()
         {
-            User = user,
-            UserId = user.Id,
+            User = userEntity,
+            UserId = userEntity.Id,
             Operator = operatorEntity,
             OperatorId = operatorEntity.Id,
             PaymentAmount = payment.PaymentAmount,
@@ -55,18 +49,31 @@ internal class PaymentTransactionsDbService : IPaymentTransactionsDbService
         };
         await _context.Transactions.AddAsync(transaction, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
-        _logger.LogInformation($"New transaction added in Db.\nTransaction: {JsonSerializer.Serialize(transaction, new JsonSerializerOptions() { WriteIndented = true })}");
+        _logger.LogInformation("New transaction added in Db.\nTransaction: {}",
+                               JsonSerializer.Serialize(transaction, new JsonSerializerOptions() { WriteIndented = true }));
     }
 
-    public async Task SetMobileOperatorsData(CancellationToken cancellationToken)
+    private async Task<User> GetUserEntity(Payment payment, CancellationToken cancellationToken)
     {
-        bool hasChanges = false;
-        foreach (var item in _operatorCodes.Value.OperatorCodes)
-        {
-            if (await _context.Operators.AnyAsync(e => e.Name == item.OperatorName, cancellationToken: cancellationToken)) continue;
-            hasChanges = true;
-            await _context.AddAsync(new Operator() { Name = item.OperatorName }, cancellationToken);
-        }
-        if (hasChanges) await _context.SaveChangesAsync(cancellationToken);        
+        var userEntity = await _context.Users.FirstOrDefaultAsync(entity => entity.PhoneNumber == payment.PhoneNumber.ToString(), cancellationToken);
+        if (userEntity is not null) return userEntity;
+        
+        userEntity = new User() { PhoneNumber = payment.PhoneNumber.ToString() };
+        await _context.Users.AddAsync(userEntity, cancellationToken);
+        await _context.SaveChangesAsync(cancellationToken);
+        _logger.LogInformation($"User with number {payment.PhoneNumber} is not found in Db. \nCreated new User");
+        return userEntity;
+    }
+
+    private async Task<Operator> GetOperatorEntity(string operatorName, CancellationToken cancellationToken)
+    {
+        var operatorEntity = await _context.Operators.FirstOrDefaultAsync(entity => entity.Name == operatorName, cancellationToken);
+        if (operatorEntity is not null) return operatorEntity;
+        
+        operatorEntity = new Operator() { Name = operatorName };
+        await _context.Operators.AddAsync(operatorEntity, cancellationToken);
+        await _context.SaveChangesAsync(cancellationToken);
+        _logger.LogInformation($"Operator with name {operatorName} is not found in Db. \nCreated new Operator");
+        return operatorEntity;
     }
 }
